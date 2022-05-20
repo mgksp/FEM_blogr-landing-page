@@ -9,6 +9,9 @@ module.exports = {
       borderWidth: {
         1: "1px",
       },
+      borderRadius: {
+        100: "6.25rem",
+      },
       colors: {
         ltRed: "hsl(356, 100%, 66%)",
         ltrRed: "hsl(355, 100%, 74%)",
