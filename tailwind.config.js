@@ -6,6 +6,9 @@ module.exports = {
         overpass: ["Overpass", "sans-serif"],
         ubuntu: ["Ubuntu", "sans-serif"],
       },
+      borderWidth: {
+        1: "1px",
+      },
       colors: {
         ltRed: "hsl(356, 100%, 66%)",
         ltrRed: "hsl(355, 100%, 74%)",
