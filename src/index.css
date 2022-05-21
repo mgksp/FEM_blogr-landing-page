@@ -4,15 +4,15 @@
 
 @layer base {
   h1 {
-    @apply text-white text-4xl font-semibold -tracking-[1.5px] leading-[2.875rem];
+    @apply text-white text-4xl font-semibold -tracking-[1.5px] leading-[2.875rem] md:text-[4rem] md:-tracking-[2.5px];
   }
 
   h2 {
-    @apply text-dkrBlue font-semibold text-[1.75rem] -tracking-[1px];
+    @apply text-dkrBlue font-semibold text-center text-[1.75rem] -tracking-[1px] md:text-[2.5rem] md:-tracking-[1.5px];
   }
 
   h3 {
-    @apply text-dkrBlue text-[1.75rem] w-[15ch] font-semibold -tracking-[0.2px] leading-8 mx-auto;
+    @apply text-dkrBlue text-[1.75rem] w-[15ch] font-semibold -tracking-[0.2px] leading-8 mx-auto md:w-full;
   }
 
   p {
@@ -23,5 +23,11 @@
 @layer components {
   .bodyContent {
     @apply text-dkrGrayishBlue text-base tracking-[0.5px] leading-7 mt-5;
+  }
+}
+
+@layer utilities {
+  .maxWidth {
+    @apply max-w-[69.375rem] mx-auto;
   }
 }
