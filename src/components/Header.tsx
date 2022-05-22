@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import logo from "../images/logo.svg";
 
 import hamburgerIcon from "../images/icon-hamburger.svg";
@@ -7,6 +9,8 @@ import bgPatternIntroDesktop from "../images/bg-pattern-intro-desktop.svg";
 
 import iconArrDark from "../images/icon-arrow-dark.svg";
 import iconArrLight from "../images/icon-arrow-light.svg";
+import { useState } from "react";
+import { navMenu } from "../utilities/enums";
 
 export default function Header() {
   return (
@@ -24,42 +28,7 @@ export default function Header() {
           <img src={hamburgerIcon} alt="" />
         </button>
 
-        <div className="hidden md:flex flex-1 justify-between items-center">
-          <div className="flex gap-5">
-            <div className="cursor-pointer">
-              <div className="flex gap-2 items-center">
-                Product <img src={iconArrLight} alt="" />
-              </div>
-              <div className="relative">
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 rounded shadow-lg w-40 bg-white py-8 px-6 text-dkrBlackBlue">
-                  <ul className="flex flex-col gap-2">
-                    <li className="hover:font-bold">Overview</li>
-                    <li className="hover:font-bold">Pricing</li>
-                    <li className="hover:font-bold">Marketplace</li>
-                    <li className="hover:font-bold">Features</li>
-                    <li className="hover:font-bold">Integrations</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="cursor-pointer">
-              <div className="flex gap-2 items-center">
-                Company <img src={iconArrLight} alt="" />
-              </div>
-            </div>
-            <div className="cursor-pointer">
-              <div className="flex gap-2 items-center">
-                Connect <img src={iconArrLight} alt="" />
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-5">
-            <button>Login</button>
-            <button className="flex-1 py-3 font-bold rounded-full border-1 border-white min-w-[8.5rem] md:flex-none text-introGradient-to bg-white">
-              Sign Up
-            </button>
-          </div>
-        </div>
+        <DesktopNav />
       </nav>
 
       <div className="flex-1 px-9 grid place-content-center text-center text-white">
@@ -79,3 +48,104 @@ export default function Header() {
     </header>
   );
 }
+
+const DesktopNav = () => {
+  const [productMenu, setProductMenu] = useState<boolean>(false);
+  const [companyMenu, setCompanyMenu] = useState<boolean>(false);
+  const [connectMenu, setConnectMenu] = useState<boolean>(false);
+
+  const handleClick = (menu: navMenu) => {
+    if (menu === navMenu.product) {
+      setCompanyMenu(false);
+      setConnectMenu(false);
+      setProductMenu((prev) => !prev);
+    } else if (menu === navMenu.company) {
+      setProductMenu(false);
+      setConnectMenu(false);
+      setCompanyMenu((prev) => !prev);
+    } else if (menu === navMenu.connect) {
+      setProductMenu(false);
+      setCompanyMenu(false);
+      setConnectMenu((prev) => !prev);
+    }
+  };
+
+  return (
+    <div className="hidden md:flex flex-1 justify-between items-center">
+      <div className="flex gap-5">
+        <div className="">
+          <div
+            className="flex gap-2 items-center cursor-pointer"
+            onClick={() => handleClick(navMenu.product)}
+          >
+            Product <img src={iconArrLight} alt="" />
+          </div>
+          <div className="relative">
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: productMenu ? "fit-content" : 0 }}
+              className="absolute top-4 left-1/2 -translate-x-1/2 rounded shadow-lg w-40 bg-white px-6 text-dkrBlackBlue overflow-hidden"
+            >
+              <ul className="flex flex-col gap-2 py-8">
+                <li className="cursor-pointer hover:font-bold">Overview</li>
+                <li className="cursor-pointer hover:font-bold">Pricing</li>
+                <li className="cursor-pointer hover:font-bold">Marketplace</li>
+                <li className="cursor-pointer hover:font-bold">Features</li>
+                <li className="cursor-pointer hover:font-bold">Integrations</li>
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+        <div className="">
+          <div
+            className="flex gap-2 items-center cursor-pointer"
+            onClick={() => handleClick(navMenu.company)}
+          >
+            Company <img src={iconArrLight} alt="" />
+          </div>
+          <div className="relative">
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: companyMenu ? "fit-content" : 0 }}
+              className="absolute top-4 left-1/2 -translate-x-1/2 rounded shadow-lg w-40 bg-white px-6 text-dkrBlackBlue overflow-hidden"
+            >
+              <ul className="flex flex-col gap-2 py-8">
+                <li className="cursor-pointer hover:font-bold">About</li>
+                <li className="cursor-pointer hover:font-bold">Team</li>
+                <li className="cursor-pointer hover:font-bold">Blog</li>
+                <li className="cursor-pointer hover:font-bold">Careers</li>
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+        <div className="">
+          <div
+            className="flex gap-2 items-center cursor-pointer"
+            onClick={() => handleClick(navMenu.connect)}
+          >
+            Connect <img src={iconArrLight} alt="" />
+          </div>
+          <div className="relative">
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: connectMenu ? "fit-content" : 0 }}
+              className="absolute top-4 left-1/2 -translate-x-1/2 rounded shadow-lg w-40 bg-white px-6 text-dkrBlackBlue overflow-hidden"
+            >
+              <ul className="flex flex-col gap-2 py-8">
+                <li className="cursor-pointer hover:font-bold">Contact</li>
+                <li className="cursor-pointer hover:font-bold">Newsletter</li>
+                <li className="cursor-pointer hover:font-bold">LinkedIn</li>
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-5">
+        <button>Login</button>
+        <button className="flex-1 py-3 font-bold rounded-full border-1 border-white min-w-[8.5rem] md:flex-none text-introGradient-to bg-white">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  );
+};
