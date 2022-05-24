@@ -2,6 +2,9 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        15: "0.9375rem",
+      },
       fontFamily: {
         overpass: ["Overpass", "sans-serif"],
         ubuntu: ["Ubuntu", "sans-serif"],
