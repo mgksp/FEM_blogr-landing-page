@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-import { navMenu } from "../utilities/enums";
-
 import iconArrDark from "../images/icon-arrow-dark.svg";
+
+import { navMenu } from "../utilities/enums";
+import { iNavMenuProps } from "../utilities/interfaces";
+import { navigationLinks } from "../data/navigationLinks";
 
 export default function MobileNav() {
   const [productMenu, setProductMenu] = useState<boolean>(false);
@@ -38,77 +40,14 @@ export default function MobileNav() {
       style={{ width: "calc(100% - 3rem)" }}
     >
       <div className="m-6 grid place-items-center">
-        <div
-          className="flex gap-2 items-center cursor-pointer my-2"
-          onClick={() => handleClick(navMenu.product)}
-        >
-          <div className={productMenu ? "opacity-75" : ""}>Product</div>
-          <motion.img
-            animate={{ rotate: productMenu ? 180 : 0 }}
-            src={iconArrDark}
-            alt=""
+        {navigationLinks.map((navLink, idx) => (
+          <NavMenu
+            title={navLink.title}
+            links={navLink.links}
+            handleClick={() => handleClick(navLink.navMenuEnum)}
+            navMenuState={[productMenu, companyMenu, connectMenu][idx]}
           />
-        </div>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: productMenu ? "fit-content" : 0 }}
-          className="w-full bg-gray-100 overflow-hidden rounded-md"
-        >
-          <ul className="flex flex-col items-center gap-4 px-6 py-4 text-base">
-            <li className="cursor-pointer hover:font-bold">Overview</li>
-            <li className="cursor-pointer hover:font-bold">Pricing</li>
-            <li className="cursor-pointer hover:font-bold">Marketplace</li>
-            <li className="cursor-pointer hover:font-bold">Features</li>
-            <li className="cursor-pointer hover:font-bold">Integrations</li>
-          </ul>
-        </motion.div>
-
-        <div
-          className="flex gap-2 items-center cursor-pointer my-2"
-          onClick={() => handleClick(navMenu.company)}
-        >
-          <div className={companyMenu ? "opacity-75" : ""}>Company</div>
-          <motion.img
-            animate={{ rotate: companyMenu ? 180 : 0 }}
-            src={iconArrDark}
-            alt=""
-          />
-        </div>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: companyMenu ? "fit-content" : 0 }}
-          className="w-full bg-gray-100 overflow-hidden rounded-md"
-        >
-          <ul className="flex flex-col items-center gap-4 px-6 py-4 text-base">
-            <li className="cursor-pointer hover:font-bold">About</li>
-            <li className="cursor-pointer hover:font-bold">Team</li>
-            <li className="cursor-pointer hover:font-bold">Blog</li>
-            <li className="cursor-pointer hover:font-bold">Careers</li>
-          </ul>
-        </motion.div>
-
-        <div
-          className="flex gap-2 items-center cursor-pointer my-2"
-          onClick={() => handleClick(navMenu.connect)}
-        >
-          <div className={connectMenu ? "opacity-75" : ""}>Connect</div>
-          <motion.img
-            animate={{ rotate: connectMenu ? 180 : 0 }}
-            src={iconArrDark}
-            alt=""
-          />
-        </div>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: connectMenu ? "fit-content" : 0 }}
-          className="w-full bg-gray-100 overflow-hidden rounded-md"
-        >
-          <ul className="flex flex-col items-center gap-4 px-6 py-4 text-base">
-            <li className="cursor-pointer hover:font-bold">Contact</li>
-            <li className="cursor-pointer hover:font-bold">Newsletter</li>
-            <li className="cursor-pointer hover:font-bold">LinkedIn</li>
-          </ul>
-        </motion.div>
+        ))}
 
         <hr className="w-full my-5" />
 
@@ -120,3 +59,37 @@ export default function MobileNav() {
     </motion.div>
   );
 }
+
+const NavMenu = ({
+  title,
+  links,
+  handleClick,
+  navMenuState,
+}: iNavMenuProps) => {
+  return (
+    <>
+      <div
+        className="flex gap-2 items-center cursor-pointer my-2"
+        onClick={handleClick}
+      >
+        <div className={navMenuState ? "opacity-75" : ""}>{title}</div>
+        <motion.img
+          animate={{ rotate: navMenuState ? 180 : 0 }}
+          src={iconArrDark}
+          alt=""
+        />
+      </div>
+      <motion.div
+        initial={{ height: 0 }}
+        animate={{ height: navMenuState ? "fit-content" : 0 }}
+        className="w-full bg-gray-100 overflow-hidden rounded-md"
+      >
+        <ul className="flex flex-col items-center gap-4 px-6 py-4 text-base">
+          {links.map((link) => (
+            <li className="cursor-pointer hover:font-bold">{link}</li>
+          ))}
+        </ul>
+      </motion.div>
+    </>
+  );
+};
