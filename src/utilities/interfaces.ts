@@ -1,3 +1,4 @@
+import React from "react";
 import { navMenu } from "./enums";
 
 export interface iNavigationLinks {
@@ -11,4 +12,5 @@ export interface iNavMenuProps {
   links: String[];
   handleClick?: React.MouseEventHandler<HTMLDivElement>;
   navMenuState?: Boolean;
+  setNavMenuState?: React.Dispatch<React.SetStateAction<boolean>>;
 }

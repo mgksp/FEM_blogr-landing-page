@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import iconArrDark from "../images/icon-arrow-dark.svg";
@@ -7,10 +7,37 @@ import { navMenu } from "../utilities/enums";
 import { iNavMenuProps } from "../utilities/interfaces";
 import { navigationLinks } from "../data/navigationLinks";
 
-export default function MobileNav() {
+interface MobileNavProps {
+  mobNavState: Boolean;
+  setMobNavState: React.Dispatch<SetStateAction<boolean>>;
+}
+export default function MobileNav({
+  mobNavState,
+  setMobNavState,
+}: MobileNavProps) {
+  const node = useRef<HTMLDivElement>(null);
+
   const [productMenu, setProductMenu] = useState<boolean>(false);
   const [companyMenu, setCompanyMenu] = useState<boolean>(false);
   const [connectMenu, setConnectMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    function closeNavMenu(evt: MouseEvent) {
+      if (
+        mobNavState &&
+        node.current &&
+        !node.current.contains(evt.target as Node)
+      ) {
+        setMobNavState!(false);
+      }
+    }
+
+    document.addEventListener("mousedown", closeNavMenu);
+
+    return () => {
+      document.removeEventListener("mousedown", closeNavMenu);
+    };
+  }, [mobNavState]);
 
   const handleClick = (menu: navMenu) => {
     if (menu === navMenu.product) {
@@ -30,6 +57,7 @@ export default function MobileNav() {
 
   return (
     <motion.div
+      ref={node}
       animate={{
         scale: [0, 1.1, 1],
         borderRadius: ["2rem", "2rem", "0.25rem"],
@@ -42,6 +70,7 @@ export default function MobileNav() {
       <div className="m-6 grid place-items-center">
         {navigationLinks.map((navLink, idx) => (
           <NavMenu
+            key={idx}
             title={navLink.title}
             links={navLink.links}
             handleClick={() => handleClick(navLink.navMenuEnum)}
@@ -85,8 +114,10 @@ const NavMenu = ({
         className="w-full bg-gray-100 overflow-hidden rounded-md"
       >
         <ul className="flex flex-col items-center gap-4 px-6 py-4 text-base">
-          {links.map((link) => (
-            <li className="cursor-pointer hover:font-bold">{link}</li>
+          {links.map((link, idx) => (
+            <li key={idx} className="cursor-pointer hover:font-bold">
+              {link}
+            </li>
           ))}
         </ul>
       </motion.div>

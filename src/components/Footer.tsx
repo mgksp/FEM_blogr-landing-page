@@ -8,7 +8,11 @@ export default function Footer() {
       <div className="grid gap-12 place-content-center md:grid-cols-4 maxWidth">
         <img className="w-24 mb-6" src={logo} alt="" />
         {navigationLinks.map((navLink) => (
-          <NavMenu title={navLink.title} links={navLink.links} />
+          <NavMenu
+            key={navLink.title}
+            title={navLink.title}
+            links={navLink.links}
+          />
         ))}
       </div>
 
@@ -37,11 +41,16 @@ export default function Footer() {
 
 const NavMenu = ({ title, links }: iNavMenuProps) => {
   return (
-    <div className="">
+    <div className="text-15">
       <h4 className="text-white font-bold mb-8">{title}</h4>
       <ul>
-        {links.map((link) => (
-          <li className="hover:underline cursor-pointer">{link}</li>
+        {links.map((link, idx) => (
+          <li
+            key={idx}
+            className="hover:underline cursor-pointer font-normal mb-2 w-fit"
+          >
+            {link}
+          </li>
         ))}
       </ul>
     </div>

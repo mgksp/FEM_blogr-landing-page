@@ -11,7 +11,7 @@ import bgPatternIntroMobile from "../images/bg-pattern-intro-mobile.svg";
 import bgPatternIntroDesktop from "../images/bg-pattern-intro-desktop.svg";
 
 export default function Header() {
-  const [showMobNav, setShowMobNav] = useState(false);
+  const [showMobNav, setShowMobNav] = useState<boolean>(false);
 
   return (
     <header className="relative z-0 overflow-hidden w-full min-h-[37.5rem] py-14 rounded-bl-100 flex flex-col bg-gradient-to-br from-introGradient-from to-introGradient-to">
@@ -28,14 +28,19 @@ export default function Header() {
           <button
             aria-label="menu button"
             className="ml-auto md:hidden"
-            onClick={() => setShowMobNav((prev) => !prev)}
+            onClick={() => setShowMobNav(true)}
           >
             <img src={hamburgerIcon} alt="" />
           </button>
 
           <DesktopNav />
           <AnimatePresence initial={false} exitBeforeEnter={true}>
-            {showMobNav && <MobileNav />}
+            {showMobNav && (
+              <MobileNav
+                mobNavState={showMobNav}
+                setMobNavState={setShowMobNav}
+              />
+            )}
           </AnimatePresence>
         </nav>
       </div>
